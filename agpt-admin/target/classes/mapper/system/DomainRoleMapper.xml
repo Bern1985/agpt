@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ancs.agpt.system.mapper.DomainRoleMapper" >
+  <resultMap id="BaseResultMap" type="com.ancs.agpt.system.entity.DomainRole" >
+    <id column="ID" property="id" jdbcType="BIGINT" />
+    <result column="code" property="code" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="createtime" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="dr" property="dr" jdbcType="INTEGER" />
+    <result column="ts" property="ts" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, code, name, createtime, dr, ts
+  </sql>
+  <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_ANCS_SYSTEM_DOMAIN_ROLE
+    where ID = #{id,jdbcType=BIGINT}
+  </select>
+ 
+  <select id="selectPage" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_ANCS_SYSTEM_DOMAIN_ROLE
+  </select>
+ 
+  <insert id="insert" parameterType="com.ancs.agpt.system.entity.DomainRole" >
+    insert into T_ANCS_SYSTEM_DOMAIN_ROLE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="code != null" >
+        code,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="createtime != null" >
+        createtime,
+      </if>
+      <if test="dr != null" >
+        dr,
+      </if>
+      <if test="ts != null" >
+        ts,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="code != null" >
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dr != null" >
+        #{dr,jdbcType=INTEGER},
+      </if>
+      <if test="ts != null" >
+        #{ts,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="update" parameterType="com.ancs.agpt.system.entity.DomainRole" >
+    update T_ANCS_SYSTEM_DOMAIN_ROLE
+    <set >
+      <if test="code != null" >
+        code = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        createtime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dr != null" >
+        dr = #{dr,jdbcType=INTEGER},
+      </if>
+      <if test="ts != null" >
+        ts = #{ts,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=BIGINT}
+  </update>
+ 
+  <select id="findByDomainId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+      select r.*
+        from T_ANCS_SYSTEM_DOMAIN u
+        LEFT JOIN T_ANCS_SYSTEM_DOMAIN_DOMAIN_ROLE sru on u.ID= sru.domain_id
+        LEFT JOIN T_ANCS_SYSTEM_DOMAIN_ROLE r on sru.domain_role_id=r.ID
+        where u.ID=#{domainId,jdbcType=BIGINT}
+ 	</select>
+</mapper>
