@@ -5,6 +5,7 @@
 */bin/
 */gen/
 */out/
+*/target/
 
 # Gradle files
 .gradle/
