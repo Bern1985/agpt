@@ -87,5 +87,10 @@ public class RestResult {
     public static RestResult error(int code ,String message) {
         return new RestResult(code,message);
     }
+
+	public void setContent(Object content) {
+		this.content = content;
+	}
+    
     
 }

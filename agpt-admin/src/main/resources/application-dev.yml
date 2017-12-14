@@ -40,5 +40,7 @@ jasypt:
     encryptor:
         bean: encryptorBean
         password: ${JASYPT_ENCRYPTOR_PASSWORD:}
-  
+agpt:
+  config:
+    enableEncrypt: true
   

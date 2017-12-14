@@ -2,13 +2,14 @@ package com.ancs.agpt.config;
 
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.alibaba.fastjson.support.config.FastJsonConfig;
-import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;
+import com.ancs.agpt.security.config.AncsHttpMessageConverter;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.databind.ser.DefaultSerializerProvider;
 import com.fasterxml.jackson.databind.ser.SerializerFactory;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.HttpMessageConverter;
@@ -31,6 +32,9 @@ import java.util.Set;
 @Configuration
 public class ResourceConfig extends WebMvcConfigurerAdapter {
 	
+	@Value("${agpt.config.enableEncrypt}")
+	private boolean enableEncrypt;
+	
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
 		
 		registry.addResourceHandler("swagger-ui.html").addResourceLocations("classpath:/META-INF/resources/");
@@ -44,14 +48,14 @@ public class ResourceConfig extends WebMvcConfigurerAdapter {
 	public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
 		// TODO Auto-generated method stub
 		super.configureMessageConverters(converters);
-		FastJsonHttpMessageConverter fastConverter = new FastJsonHttpMessageConverter();  
+		AncsHttpMessageConverter fastConverter = new AncsHttpMessageConverter();  
 		   
         FastJsonConfig fastJsonConfig = new FastJsonConfig();  
         fastJsonConfig.setSerializerFeatures(  
                 SerializerFeature.PrettyFormat  
         );  
         fastConverter.setFastJsonConfig(fastJsonConfig);  
-        
+        fastConverter.setEnableEncrypt(enableEncrypt);
         converters.add(fastConverter);  
 	}
 	
