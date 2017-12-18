@@ -1,6 +1,6 @@
 package com.ancs.agpt.cons;
 
-public class Constants {
+public interface Constants {
 	
 	/**
      * 存储当前登录用户id的字段名
@@ -16,5 +16,10 @@ public class Constants {
      * 存放Authorization的header字段
      */
     public static final String AUTHORIZATION = "authorization";
+    
+    
+    public static final String SUPER_ADMIN = "ancs_zhanghua";
+    
+    public static final String ROLE_SUPER_ADMIN = "SUPER_ADMIN";
     
 }

@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 public enum  Status implements IEnum{
 	
-	NORMAL(0,"NORMAL"),LOCKED(1,"LOCKED"),FORBIDDEN(2,"FORBIDDEN");
+	NORMAL(0,"NORMAL"),LOCKED(1,"LOCKED"),FORBIDDEN(2,"FORBIDDEN"),EXPIRED(2,"EXPIRED");
 
     private int value;
     private String desc;

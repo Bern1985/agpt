@@ -12,7 +12,7 @@ import lombok.Data;
 
 @Data
 @ApiModel(value = "用户对象") 
-public class UpdateUserParamter {
+public class UpdateUserWarpper {
 	
     @Email(message="邮箱格式错误")
     private String email;

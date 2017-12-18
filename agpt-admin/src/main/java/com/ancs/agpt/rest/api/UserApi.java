@@ -12,22 +12,20 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.Instant;
 import java.util.Date;
-import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import com.ancs.agpt.mybatis.plugin.Page;
 import com.ancs.agpt.rest.model.RestResult;
-import com.ancs.agpt.rest.model.UpdateUserParamter;
-import com.ancs.agpt.rest.model.UserParamter;
+import com.ancs.agpt.rest.model.UpdateUserWarpper;
+import com.ancs.agpt.rest.model.UserWarpper;
 import com.ancs.agpt.system.entity.User;
 import com.ancs.agpt.system.entity.enums.Sex;
 import com.ancs.agpt.system.entity.enums.Status;
 import com.ancs.agpt.system.service.UserService;
 import com.ancs.agpt.system.toolkit.EnumUtils;
 
-@RequestMapping(value = "/api")
+@RequestMapping("/api/v1/users")
 @Api(tags="用户管理")
 @Slf4j
 @RestController
@@ -35,9 +33,9 @@ public class UserApi {
 	@Autowired
 	private UserService userService;
 	
-	@PostMapping(value="/users",consumes={"application/json"} ,produces = {"application/json"})
+	@PostMapping(value="",consumes={"application/json"} ,produces = {"application/json"})
 	 @ApiOperation(value="添加用户", notes="添加用户", produces = "application/json")  
-    public RestResult add(@RequestBody @Valid UserParamter userParamter, BindingResult bindingResult) throws Exception {
+    public RestResult add(@RequestBody @Valid UserWarpper userParamter, BindingResult bindingResult) throws Exception {
 		if (bindingResult.hasErrors()) {  
 			return RestResult.paramterError(bindingResult);
 		}
@@ -46,23 +44,23 @@ public class UserApi {
         return RestResult.ok();
     }
 	
-	@DeleteMapping("/users/{id}")
+	@DeleteMapping("/{id}")
     @ApiOperation(value="通过ID删除用户")
     public RestResult delete(@ApiParam(value = "id for User", required = true) @PathVariable("id") Long id) throws Exception{
         userService.deleteById(id);
         return RestResult.ok();
     }
 	
-	@GetMapping("/users/{id}")
+	@GetMapping("/{id}")
     @ApiOperation("通过ID查询用户")
     public RestResult findById(@ApiParam(value = "id for User", required = true) @PathVariable("id") Long id)  throws Exception {
 		User user = userService.selectById(id);
         return RestResult.warperOk(user);
     }
 	
-	@PutMapping("/users")
+	@PutMapping("")
     @ApiOperation("更新用户")
-    public RestResult update(@RequestBody @Valid UpdateUserParamter userParamter,BindingResult bindingResult)  throws Exception {
+    public RestResult update(@RequestBody @Valid UpdateUserWarpper userParamter,BindingResult bindingResult)  throws Exception {
 		if (bindingResult.hasErrors()) {  
 			return RestResult.paramterError(bindingResult);
 		}
@@ -72,14 +70,14 @@ public class UserApi {
     }
 	
 	
-	@PutMapping("/users/lastlogin/{id}")
+	@PutMapping("/lastlogin/{id}")
     @ApiOperation("更新用户最后登录时间")
     public RestResult updateLastLoginTime(@ApiParam(value = "id for User", required = true) @PathVariable("id") Long id){
 		userService.updateLastLoginTime(id);
 		return RestResult.ok();
     }
 	
-	@PutMapping("/users/status/{id}/{status}")
+	@PutMapping("/status/{id}/{status}")
     @ApiOperation("更新用户状态")
     public RestResult setStatus(@ApiParam(value = "用户ID", required = true) @PathVariable("id") Long id, @ApiParam(value = "用户状态", required = true) @PathVariable("status") String status){
 		User user = new User();
@@ -89,7 +87,7 @@ public class UserApi {
 		return RestResult.ok();
     }
 	
-	@GetMapping("/users")
+	@GetMapping("")
     @ApiOperation("查询用户列表")
 	@ApiImplicitParams( value = {
 	        @ApiImplicitParam(paramType = "query", name = "status", dataType = "String", required = false, value = "用户状态"),

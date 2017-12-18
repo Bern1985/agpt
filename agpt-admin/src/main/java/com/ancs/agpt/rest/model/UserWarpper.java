@@ -14,7 +14,7 @@ import lombok.Data;
 
 @Data
 @ApiModel(value = "用户对象") 
-public class UserParamter {
+public class UserWarpper {
 	
 	@ApiModelProperty(value = "账号", required = true)  
 	@NotBlank(message="账号不能为空")

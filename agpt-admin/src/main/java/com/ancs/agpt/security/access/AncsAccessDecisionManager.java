@@ -39,12 +39,11 @@ public class AncsAccessDecisionManager implements AccessDecisionManager {
 		}
 		Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
 		ConfigAttribute attribute = configAttributes.stream().filter(configAttribute -> authorities.stream().anyMatch(ga -> configAttribute.getAttribute().equals(ga.getAuthority()))).findAny().orElse(null);
-		if (log.isDebugEnabled()) {
-			log.debug(MessageFormat.format("{0} has GrantedAuthority is - {1} , request is - {2}", authentication.getName(),authorities, object)); //$NON-NLS-1$
-		}
+		
 		if(null != attribute) 
 			return;
 		
+		log.info(MessageFormat.format("{0} has GrantedAuthority is - {1} , request is - {2}", authentication.getName(),authorities, object)); //$NON-NLS-1$
 		// User Don't has needed authority that the resource ordered.
 		throw new AccessDeniedException("Acces Denied.");
 	}

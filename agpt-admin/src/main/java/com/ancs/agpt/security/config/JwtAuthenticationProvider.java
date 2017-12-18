@@ -8,8 +8,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 
-
-
 import com.ancs.agpt.security.exception.JwtTokenMalformedException;
 import com.ancs.agpt.security.model.JwtAuthenticationToken;
 
@@ -35,8 +33,8 @@ public class JwtAuthenticationProvider  extends AbstractUserDetailsAuthenticatio
 	        String account = JwtTokenUtils.getUsernameFromToken(token);
 	        UserDetails userDetails = userDetailsService.loadUserByUsername(account);
 	        if (userDetails == null) {
-	            throw new JwtTokenMalformedException("JWT token is not valid");
-	        }
+ 	            throw new JwtTokenMalformedException("JWT token is not valid");
+ 	        }
 	        return userDetails;
 	     
 	    }

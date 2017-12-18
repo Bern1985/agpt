@@ -10,6 +10,8 @@ import java.security.Key;
 import javax.crypto.spec.SecretKeySpec;
 import javax.xml.bind.DatatypeConverter;
 
+import com.ancs.agpt.cons.Constants;
+
 
 
 public class JwtTokenUtils {
@@ -64,7 +66,7 @@ public class JwtTokenUtils {
 	    }
 	    
 	    public static void main(String[] args) {
-	    	String token = generateToken("oa123");
+	    	String token = generateToken(Constants.SUPER_ADMIN);
 	    	System.out.println(token);
 //			String token = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTUxMjIwMDAyNSwibmJmIjoxNTEyMTEzNjI1fQ.SouHPYpxrf4YgTxYBn6352WxCLt_0kixg1Q0IyEqfl9x8DmU6tospgf_auGfP3Ai7hTip5aB3PCtXMo4dHIR7g";
 			System.out.println(getUsernameFromToken(token));
