@@ -1,14 +1,19 @@
 package com.ancs.agpt.config;
 
 import java.util.List;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 
 import javax.annotation.Resource;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
+
+import org.apache.catalina.Context;
+import org.apache.catalina.connector.Connector;
+import org.apache.tomcat.util.descriptor.web.SecurityCollection;
+import org.apache.tomcat.util.descriptor.web.SecurityConstraint;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,6 +23,8 @@ import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
+import org.springframework.boot.context.embedded.EmbeddedServletContainerFactory;
+import org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletContainerFactory;
 import com.ancs.agpt.system.entity.RestUrl;
 import com.ancs.agpt.system.service.RestUrlService;
 import com.google.common.base.Joiner;
@@ -31,6 +38,7 @@ import io.swagger.annotations.ApiOperation;
  */
 @Component
 public class ApplicationStartup  implements CommandLineRunner {
+	
 	
 	@Resource
 	private RestUrlService restUrlService;
@@ -93,4 +101,6 @@ public class ApplicationStartup  implements CommandLineRunner {
         	restUrlService.insertBatch(restList);
         }
     }
+    
+   
 }

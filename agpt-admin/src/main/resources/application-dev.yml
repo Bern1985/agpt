@@ -1,5 +1,13 @@
 server:
   port: 8090
+  https:
+    port: 8443
+  ssl:
+    key-store: ancs.p12
+    key-store-password: 123456
+    key-password: 123456
+    key-store-type: PKCS12
+    key-alias: ancs
 spring:
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
@@ -42,5 +50,5 @@ jasypt:
         password: ${JASYPT_ENCRYPTOR_PASSWORD:}
 agpt:
   config:
-    enableEncrypt: true
+    enableEncrypt: false
   

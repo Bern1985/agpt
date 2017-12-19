@@ -26,7 +26,6 @@ public class AncsHttpMessageConverter extends FastJsonHttpMessageConverter{
     protected void writeInternal(Object obj, HttpOutputMessage outputMessage)
             throws IOException, HttpMessageNotWritableException {
         if(enableEncrypt && obj.getClass().isAssignableFrom(RestResult.class)) {
-        	
             try {
             	RestResult result = (RestResult) obj;
             	FastJsonConfig fastJsonConfig = getFastJsonConfig();

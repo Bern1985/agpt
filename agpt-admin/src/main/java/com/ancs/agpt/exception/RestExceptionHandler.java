@@ -1,4 +1,4 @@
-package com.ancs.agpt.rest.api;
+package com.ancs.agpt.exception;
 
 import java.io.IOException;
 
