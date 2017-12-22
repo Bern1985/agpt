@@ -3,16 +3,24 @@ package com.ancs.agpt.config;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.alibaba.fastjson.support.config.FastJsonConfig;
 import com.ancs.agpt.security.config.AncsHttpMessageConverter;
+import com.ancs.agpt.security.sensitive.MaskFieldIntrospector;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.databind.ser.DefaultSerializerProvider;
 import com.fasterxml.jackson.databind.ser.SerializerFactory;
+import com.fasterxml.jackson.databind.util.ISO8601DateFormat;
+import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.fasterxml.jackson.module.paramnames.ParameterNamesModule;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.format.FormatterRegistry;
 import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -43,23 +51,33 @@ public class ResourceConfig extends WebMvcConfigurerAdapter {
 		registry.addResourceHandler("/**").addResourceLocations("classpath:/static/");
 		super.addResourceHandlers(registry);
 	}
-	
+	/*
 	@Override
 	public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
 		// TODO Auto-generated method stub
+		converters.add(customJackson2HttpMessageConverter());
 		super.configureMessageConverters(converters);
 		AncsHttpMessageConverter fastConverter = new AncsHttpMessageConverter();  
-		   
+	
         FastJsonConfig fastJsonConfig = new FastJsonConfig();  
         fastJsonConfig.setSerializerFeatures(  
                 SerializerFeature.PrettyFormat  
         );  
         fastConverter.setFastJsonConfig(fastJsonConfig);  
         fastConverter.setEnableEncrypt(enableEncrypt);
-        converters.add(fastConverter);  
-	}
+        converters.add(fastConverter); 
+		
+	} */
 	
-
+	@Bean
+	  public ObjectMapper ObjectMapper(){
+	   ObjectMapper objectMapper = new ObjectMapper()
+	   .registerModule(new ParameterNamesModule())
+	   .registerModule(new Jdk8Module())
+	   .registerModule(new JavaTimeModule());
+	   return objectMapper;
+	  }
+	
 	/**
 	 * 自定义JSON输入输出格式
 	 *
@@ -67,23 +85,38 @@ public class ResourceConfig extends WebMvcConfigurerAdapter {
 	 */
 	@Bean
 	public MappingJackson2HttpMessageConverter customJackson2HttpMessageConverter() {
-		MappingJackson2HttpMessageConverter jsonConverter = new MappingJackson2HttpMessageConverter();
-		ObjectMapper om = new ObjectMapper();
+		AncsHttpMessageConverter jsonConverter = new AncsHttpMessageConverter();
+		ObjectMapper om = ObjectMapper();
 		om.configure(MapperFeature.DEFAULT_VIEW_INCLUSION, false);// 开启将输出没有JsonView注解的属性，false关闭将输出有JsonView注解的属性
 		om.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);// 配置该objectMapper在反序列化时，忽略目标对象没有的属性。凡是使用该objectMapper反序列化时，都会拥有该特性。
 		om.setSerializerProvider(new CustomNullStringSerializerProvider());
+		om.setAnnotationIntrospector(new MaskFieldIntrospector());
+		om.findAndRegisterModules();
 		jsonConverter.setObjectMapper(om);
+		jsonConverter.setEnableEncrypt(enableEncrypt);
 		return jsonConverter;
 	}
+	
+	
+	/*@Bean
+	public Jackson2ObjectMapperBuilderCustomizer jsonCustomizer() {
+	    return new Jackson2ObjectMapperBuilderCustomizer() {
+	        @Override
+	        public void customize(Jackson2ObjectMapperBuilder builder) {
+	            builder.dateFormat(new ISO8601DateFormat());        
+	        }           
+	    };
+	}*/
 	
 	/**
 	 * 扩展输出
 	 */
+	/**
 	@Override
 	public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
 		converters.add(customJackson2HttpMessageConverter());
 	}
-
+    */
 	/**
 	 * 自定义String序列化工具，使null转成""输出。
 	 *
@@ -199,6 +232,8 @@ public class ResourceConfig extends WebMvcConfigurerAdapter {
 		}
 	}
 	
+	
+	
 	@Override
 	public void addCorsMappings(CorsRegistry registry) {
 		registry.addMapping("/**")
@@ -223,4 +258,6 @@ public class ResourceConfig extends WebMvcConfigurerAdapter {
 		source.registerCorsConfiguration("/**", buildConfig()); // 4
 		return new CorsFilter(source);
 	}
+	
+	
 }

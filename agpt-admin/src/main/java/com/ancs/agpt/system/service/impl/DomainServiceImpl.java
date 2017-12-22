@@ -1,7 +1,6 @@
 package com.ancs.agpt.system.service.impl;
 
-import java.time.Instant;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -19,7 +18,7 @@ public class DomainServiceImpl extends BaseServiceImpl<DomainMapper,Domain> impl
 		// TODO Auto-generated method stub
 		Domain domain = new Domain();
 		domain.setId(id);
-		domain.setTs(Date.from(Instant.now()));
+		domain.setTs(LocalDateTime.now());
 		domain.setDr(1);
     	return retBool(baseMapper.update(domain));
 	}

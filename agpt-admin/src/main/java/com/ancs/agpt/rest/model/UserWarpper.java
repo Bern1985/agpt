@@ -1,5 +1,6 @@
 package com.ancs.agpt.rest.model;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 import javax.validation.constraints.Past;
@@ -29,7 +30,7 @@ public class UserWarpper {
     @NotBlank(message="姓名不能为空")
     private String name;
     @Past
-    private Date birthday;
+    private LocalDate birthday;
     
     @ApiModelProperty(value = "性别(MALE|FEMALE)", required = true)  
     @Pattern(regexp="MALE|FEMALE",message="性别错误")

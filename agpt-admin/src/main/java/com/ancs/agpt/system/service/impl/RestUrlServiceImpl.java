@@ -1,33 +1,26 @@
 package com.ancs.agpt.system.service.impl;
 
-import java.time.Instant;
-import java.util.Collection;
-import java.util.Date;
-import java.util.List;
 
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ancs.agpt.system.entity.RestUrl;
 import com.ancs.agpt.system.mapper.RestUrlMapper;
 import com.ancs.agpt.system.service.RestUrlService;
-import com.google.common.collect.Lists;
 
-import static com.google.common.collect.Lists.*;
 @Service
 public class RestUrlServiceImpl extends BaseServiceImpl<RestUrlMapper,RestUrl> implements RestUrlService{
 
-	@Transactional(propagation=Propagation.REQUIRED,isolation = Isolation.READ_COMMITTED,rollbackFor = Exception.class,timeout=60)
+	/*@Transactional(propagation=Propagation.REQUIRED,isolation = Isolation.READ_COMMITTED,rollbackFor = Exception.class,timeout=60)
 	public boolean deleteById(Long id) {
 		// TODO Auto-generated method stub
 		RestUrl url = new RestUrl();
 		url.setId(id);
-		url.setTs(Date.from(Instant.now()));
+		url.setTs(LocalDateTime.now());
 		url.setDr(1);
     	return retBool(baseMapper.update(url));
-	}
+	}*/
 
 	@Override
 	public RestUrl get(Object param) {

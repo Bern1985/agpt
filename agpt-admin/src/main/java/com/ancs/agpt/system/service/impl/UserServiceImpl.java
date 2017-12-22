@@ -30,13 +30,13 @@ public class UserServiceImpl extends BaseServiceImpl<UserMapper,User> implements
 		return retBool(baseMapper.update(user));
 	}
 	
-	@Transactional(propagation=Propagation.REQUIRED,isolation = Isolation.READ_COMMITTED,rollbackFor = Exception.class,timeout=60)
+	/*@Transactional(propagation=Propagation.REQUIRED,isolation = Isolation.READ_COMMITTED,rollbackFor = Exception.class,timeout=60)
 	public boolean deleteById(Long id) {
 		// TODO Auto-generated method stub
     	User user = new User();
     	user.setId(id);
-		user.setTs(Date.from(Instant.now()));
+		user.setTs(LocalDateTime.now());
 		user.setDr(1);
     	return retBool(baseMapper.update(user));
-	}
+	}*/
 }

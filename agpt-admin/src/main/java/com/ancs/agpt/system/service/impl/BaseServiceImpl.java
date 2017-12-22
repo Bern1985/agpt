@@ -4,8 +4,12 @@ package com.ancs.agpt.system.service.impl;
 
 import static com.google.common.collect.Lists.newArrayList;
 
+import java.lang.reflect.ParameterizedType;
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
+
+import javax.management.RuntimeErrorException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Isolation;
@@ -13,6 +17,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ancs.agpt.mybatis.plugin.Page;
+import com.ancs.agpt.system.entity.DomainRole;
 import com.ancs.agpt.system.entity.RestUrl;
 import com.ancs.agpt.system.entity.SuperEntity;
 import com.ancs.agpt.system.mapper.BaseMapper;
@@ -84,5 +89,22 @@ public abstract class BaseServiceImpl<M extends BaseMapper<T>, T extends SuperEn
 		page.setRecords(baseMapper.selectPage(page));
 		return page;
 	}
-
+	
+	@Transactional(propagation=Propagation.REQUIRED,isolation = Isolation.READ_COMMITTED,rollbackFor = Exception.class,timeout=60)
+	public boolean deleteById(Long id) {
+		// TODO Auto-generated method stub
+		 ParameterizedType type = (ParameterizedType) this.getClass().getGenericSuperclass();
+		 Class clazz = (Class) type.getActualTypeArguments()[1];
+		 T model = null;
+		try {
+			model = (T) clazz.newInstance();
+			model.setId(id);
+			model.setTs(LocalDateTime.now());
+			model.setDr(1);
+		} catch (InstantiationException | IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			throw new RuntimeException(e.getMessage());
+		}
+    	return retBool(baseMapper.update(model));
+	}
 }

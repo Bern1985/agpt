@@ -1,10 +1,10 @@
 package com.ancs.agpt.system.entity;
 
 
-import java.time.Instant;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import com.ancs.agpt.system.toolkit.IdWorker;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 public class SuperEntity {
 	
@@ -22,7 +22,7 @@ public class SuperEntity {
     private Integer dr = new Integer(0);
 
     
-    private Date ts = Date.from(Instant.now());
+    private LocalDateTime ts = LocalDateTime.now();
     
     
     public Integer getDr() {
@@ -34,13 +34,13 @@ public class SuperEntity {
         this.dr = dr;
     }
 
-   
-    public Date getTs() {
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss")
+    public LocalDateTime getTs() {
         return ts;
     }
 
    
-    public void setTs(Date ts) {
+    public void setTs(LocalDateTime ts) {
         this.ts = ts;
     }
 }
