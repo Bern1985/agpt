@@ -41,6 +41,8 @@ public class MybatisConfig {
 	        configuration.setUseColumnLabel(true);
 	        //-自动使用驼峰命名属性映射字段   userId    user_id
 	        configuration.setMapUnderscoreToCamelCase(true);
+	        //开启二级缓存
+	        configuration.setCacheEnabled(true);
 	        sqlsession.setConfiguration(configuration);
 	        sqlsession.setFailFast(true);
 	        PaginationInterceptor interceptor = new PaginationInterceptor();

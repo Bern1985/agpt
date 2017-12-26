@@ -31,7 +31,7 @@
 		<fastjson.version>1.2.22</fastjson.version>
 		<guava.version>23.4-jre</guava.version>
 		<version.swagger>2.7.0</version.swagger>
-		
+		<redis.version>2.9.0</redis.version>
 	</properties>
 	
 	 <dependencyManagement>
@@ -72,11 +72,6 @@
 			<optional>true</optional>
 		</dependency>
 		
-		<dependency>
-			<groupId>org.mybatis.spring.boot</groupId>
-			<artifactId>mybatis-spring-boot-starter</artifactId>
-			<version>${mybatis.spring.boot.version}</version>
-		</dependency>
 		
 		<!--添加适用于生产环境的功能，如性能指标和监测等功能。 -->
 		<dependency>
@@ -212,6 +207,12 @@
 		    <groupId>org.mybatis</groupId>
 		    <artifactId>mybatis-typehandlers-jsr310</artifactId>
 		    <version>1.0.2</version>
+		</dependency>
+		<!-- redis client -->
+		<dependency>
+		    <groupId>redis.clients</groupId>
+		    <artifactId>jedis</artifactId>
+		    <version>${redis.version}</version>
 		</dependency>
 		
     </dependencies>

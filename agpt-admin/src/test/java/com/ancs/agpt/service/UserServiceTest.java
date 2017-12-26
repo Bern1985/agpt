@@ -39,14 +39,23 @@ public class UserServiceTest {
         user.setStatus(Status.NORMAL);
         assertTrue(userService.insert(user));
     }*/
-	/*
+	
 	@Test
     public void selectPage() {
 		Page<User> page = new Page(1,Integer.MAX_VALUE);
+		System.out.println("first Query ==========================");
 		page = userService.selectPage(page);
-		assertTrue(page.getSize()>0);
-		//page.getRecords().stream().forEach(System.out::println);
-    }*/
+		//assertTrue(page.getSize()>0);
+		page.getRecords().stream().forEach(System.out::println);
+		System.out.println("second Query ==========================");
+		page = userService.selectPage(page);
+		//assertTrue(page.getSize()>0);
+		page.getRecords().stream().forEach(System.out::println);
+		System.out.println("third Query ==========================");
+		page = userService.selectPage(page);
+		//assertTrue(page.getSize()>0);
+		page.getRecords().stream().forEach(System.out::println);
+    }
 	/*@Test
 	public void createUser() {
         User user = new User();

@@ -21,6 +21,7 @@ public class UserDetailsServiceTest {
 	@Test
 	public void loadUserByUsername() {
 		UserDetails userDetails = userDetailsService.loadUserByUsername("oa123");
+		
 		System.out.println(userDetails.getAuthorities());
     }
 }

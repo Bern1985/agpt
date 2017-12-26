@@ -1,12 +1,13 @@
 package com.ancs.agpt.system.entity;
 
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 import com.ancs.agpt.system.toolkit.IdWorker;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
-public class SuperEntity {
+public class SuperEntity implements Serializable {
 	
 	
     private Long id = IdWorker.getId();
