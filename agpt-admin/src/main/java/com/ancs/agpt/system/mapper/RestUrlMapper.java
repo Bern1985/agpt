@@ -8,7 +8,6 @@ import org.apache.ibatis.annotations.Param;
 
 import com.ancs.agpt.mybatis.cache.MybatisRedisCache;
 import com.ancs.agpt.system.entity.RestUrl;
-@CacheNamespace(implementation = MybatisRedisCache.class)
 public interface RestUrlMapper extends BaseMapper<RestUrl>{
 	//int insertBatch(List<RestUrl> restUrlList);
 	RestUrl selectByUrlAndMethod(@Param("restUrl")String restUrl,@Param("method") String method);

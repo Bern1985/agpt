@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.Instant;
 import java.util.Date;
+import java.util.Map;
 
 import javax.validation.Valid;
 
@@ -24,6 +25,8 @@ import com.ancs.agpt.system.entity.enums.Sex;
 import com.ancs.agpt.system.entity.enums.Status;
 import com.ancs.agpt.system.service.UserService;
 import com.ancs.agpt.system.toolkit.EnumUtils;
+import com.google.common.base.Optional;
+import static com.google.common.collect.Maps.*;
 
 @RequestMapping("/api/v1/users")
 @Api(tags="用户管理")
@@ -97,15 +100,26 @@ public class UserApi {
 	        @ApiImplicitParam(paramType = "query",name = "limit", value = "每页条数", required = true, dataType = "integer")
 	})
     public RestResult selectPage(@RequestParam(value="status",required=false) String status,
-    		@RequestParam(value="deptID", required=false) String deptID,
+    		@RequestParam(value="deptID", required=false) Long deptID,
             @RequestParam(value="order",required=false) String order,
             @RequestParam(name = "page", defaultValue = "1") int page,
             @RequestParam(name = "limit", defaultValue = "10") int limit)  throws Exception {
 		
 		Page<User> page1 = new Page(page,limit);
-		if(order!=null) {
+		 Optional<String> optional = Optional.fromNullable(order);
+		if(optional.isPresent()) {
 			page1.setOrderByField(order);
 		}
+		Map<String, Object> condition = newHashMap();
+		optional = Optional.fromNullable(status);  
+		if(optional.isPresent()) {
+			condition.put("status", status);
+		}
+		Optional<Long> deptIDOptional = Optional.fromNullable(deptID);  
+		if(deptIDOptional.isPresent()) {
+			condition.put("deptID", deptID);
+		}
+		page1.setCondition(condition);
 		page1 = userService.selectPage(page1);
         return RestResult.warperOk(page1);
     }

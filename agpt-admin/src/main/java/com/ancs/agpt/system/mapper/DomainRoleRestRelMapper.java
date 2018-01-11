@@ -6,7 +6,6 @@ import org.apache.ibatis.annotations.CacheNamespace;
 
 import com.ancs.agpt.mybatis.cache.MybatisRedisCache;
 import com.ancs.agpt.system.entity.DomainRoleRestRel;
-@CacheNamespace(implementation = MybatisRedisCache.class)
 public interface DomainRoleRestRelMapper{
 	/**
      * <p>

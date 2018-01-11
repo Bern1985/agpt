@@ -72,6 +72,10 @@
 			<optional>true</optional>
 		</dependency>
 		
+		<dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-elasticsearch</artifactId>
+        </dependency>
 		
 		<!--添加适用于生产环境的功能，如性能指标和监测等功能。 -->
 		<dependency>
