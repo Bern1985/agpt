@@ -32,11 +32,13 @@ import com.google.common.base.Joiner;
 import static com.google.common.collect.Lists.*;
 
 import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * SpringBoot 启动完毕做些事情
  */
 @Component
+@Slf4j
 public class ApplicationStartup  implements CommandLineRunner {
 	
 	
@@ -87,7 +89,9 @@ public class ApplicationStartup  implements CommandLineRunner {
         				 url = url.replace(p, "*");
         			 }
         		}
+        		 
         		 RestUrl restUrl = restUrlService.selectByUrlAndMethod(url, httpmethod);
+        		 log.info("detect url = {} and method={} , then database has {}",url, httpmethod,restUrl);
         		 if(null == restUrl) {
         			 restUrl = new RestUrl();
             		 restUrl.setDescription(apiOperation.value());

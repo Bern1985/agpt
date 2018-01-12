@@ -14,7 +14,7 @@ import redis.clients.jedis.exceptions.JedisConnectionException;
 @Slf4j
 public class MybatisRedisCache implements Cache {
 	private static final String PREFIX = "ANCS_MYBATIS:";
-
+	private static final long EXPIRATION = 60;
 	private final String id;
 
 	private final ReadWriteLock readWriteLock = new ReentrantReadWriteLock(true);
@@ -44,7 +44,7 @@ public class MybatisRedisCache implements Cache {
 		try {
 			conn = redisConnectionFactory.getConnection();
 			String strKey = PREFIX + key.toString();
-			conn.set(strKey.getBytes(), jdkSerializer.serialize(value));
+			conn.setEx(strKey.getBytes(),EXPIRATION ,jdkSerializer.serialize(value));
 			if(log.isDebugEnabled()) {
 				 log.debug("putObject:" + key + "=" + value);
 			}
@@ -100,7 +100,7 @@ public class MybatisRedisCache implements Cache {
 		// 关键代码，data更新时清理缓存
 		RedisConnection conn = null;
 		try {
-			conn = redisConnectionFactory.getClusterConnection();
+			conn = redisConnectionFactory.getConnection();
 			/*
 			 * Set<byte[]> keys = conn.keys((PREFIX+"*").getBytes()); for (byte[] bs : keys)
 			 * { conn.del(bs); }
